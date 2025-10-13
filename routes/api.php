@@ -21,9 +21,11 @@ use App\Http\Controllers\LogoController;
 */
 Route::controller(CourseController::class)->group(function () {
     Route::get('/courses', 'showCourse');   
+    Route::get('/course/{course_id}', 'Course');   
 });
 Route::controller(UserController::class)->group(function () {
     Route::get('/user', 'showRegister');  
+    Route::get('/user/{id}','user');
     Route::post('/register', 'register'); 
     Route::post('/login', 'login')->name('login'); 
 });

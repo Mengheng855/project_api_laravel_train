@@ -7,6 +7,8 @@ use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Spatie\FlareClient\Api;
+
 // Removed unused JWTAuth import
 
 class UserController extends Controller
@@ -57,7 +59,6 @@ class UserController extends Controller
             ]);
 
             $user = User::where('email', $credentials['email'])->first();
-
             if ($user && Hash::check($credentials['password'], $user->password)) {
                 
                 if (!$user->getKey()) {
@@ -66,11 +67,13 @@ class UserController extends Controller
 
                 $token = $user->createToken('api-token')->plainTextToken;
                 $role=$user->role;
+                $user_id = $user->user_id;
                 $message = $role == 0 ? 'Welcome to user' : 'Welcome to admin';
                 return response()->json([
                     'status'=>200,
                     'message'=>'login successfully',
                     'role'=>$role,
+                    'user_id'=>$user_id,
                     'token'=>$token
                 ]);
             } else {
@@ -79,5 +82,9 @@ class UserController extends Controller
         } catch (Exception $e) {
             return apiResponse(500, 'An error occurred: ' . $e->getMessage(), null);
         }
+    }
+    public function user($id){
+        $user=User::find($id);
+        return apiResponse(200,'successfully',$user);
     }
 }

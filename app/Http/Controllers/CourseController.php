@@ -97,4 +97,12 @@ class CourseController extends Controller
             return apiResponse(500, 'An error occurred: ' . $e->getMessage(), null);
         }
     }
+    public function Course($course_id){
+        $course=Course::find($course_id);
+        if($course){
+            return apiResponse(200,'successfully',$course);
+        }else{
+            return apiResponse(500,'can not get course',null);
+        }
+    }
 }
