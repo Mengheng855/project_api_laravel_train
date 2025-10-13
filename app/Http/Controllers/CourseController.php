@@ -35,7 +35,7 @@ class CourseController extends Controller
                 $file = $req->file('image');
                 $filename = time() . '_' . $file->getClientOriginalName();
                 $file->move(public_path('courses'), $filename);
-                $data['image'] = $filename;
+                $data['image'] = url('courses/'.$filename);
             }
 
             $addCourse = Course::create($data);
@@ -88,7 +88,7 @@ class CourseController extends Controller
                 $file = $req->file('image');
                 $filename = time() . '_' . $file->getClientOriginalName();
                 $file->move(public_path('courses'), $filename);
-                $data['image'] = $filename;
+                $data['image'] = url('courses/'.$filename   );
             }
 
             $course->update($data);

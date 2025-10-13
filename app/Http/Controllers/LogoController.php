@@ -1,11 +1,8 @@
 <?php
-
 namespace App\Http\Controllers;
-
 use App\Models\Logo;
 use Exception;
 use Illuminate\Http\Request;
-
 class LogoController extends Controller
 {
     public function showLogo()
@@ -17,22 +14,18 @@ class LogoController extends Controller
             return apiResponse(500, 'Get data logo failed', []);
         }
     }
-
     public function addLogo(Request $req)
     {
         try {
             $data = $req->validate([
                 'image_logo' => 'required'
             ]);
-
             if ($req->hasFile('image_logo')) {
                 $file = $req->file('image_logo');
                 $filename = time() . '_' . $file->getClientOriginalName();
                 $file->move(public_path('logos'), $filename);
                 $data['image_logo'] = $filename;
-            }
-
-    
+            }    
             $user = auth()->user();
             if ($user) {
                 $data['user_id'] = $user->user_id ?? $user->id ?? null;
@@ -44,11 +37,10 @@ class LogoController extends Controller
             } else {
                 return apiResponse(500, 'Logo added failed', null);
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return apiResponse(500, 'An error occurred: ' . $e->getMessage(), null);
         }
     }
-
     public function editLogo(Request $req, $id)
     {
         try {

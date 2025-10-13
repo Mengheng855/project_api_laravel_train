@@ -30,13 +30,12 @@ class UserController extends Controller
             $file = $request->file('profile');
             $filename = time() . '_' . $file->getClientOriginalName();
             $file->move(public_path('profiles'), $filename);
-            $data['profile'] = $filename;
+            $data['profile'] = url('profiles/'.$filename);
         }
-
         $data['role'] ??= 0;
 
         $data['password'] = Hash::make($data['password']);
-
+         
         try {
             $register = User::create($data);
             if ($register) {
@@ -66,9 +65,14 @@ class UserController extends Controller
                 }
 
                 $token = $user->createToken('api-token')->plainTextToken;
-
-                $message = $user->role == 0 ? 'Welcome to user' : 'Welcome to admin';
-                return apiResponse(200, $message, $token);
+                $role=$user->role;
+                $message = $role == 0 ? 'Welcome to user' : 'Welcome to admin';
+                return response()->json([
+                    'status'=>200,
+                    'message'=>'login successfully',
+                    'role'=>$role,
+                    'token'=>$token
+                ]);
             } else {
                 return apiResponse(401, 'Unauthorized—email or password wrong', null);
             }

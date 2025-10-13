@@ -19,22 +19,20 @@ use App\Http\Controllers\LogoController;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
-
+Route::controller(CourseController::class)->group(function () {
+    Route::get('/courses', 'showCourse');   
+});
 Route::controller(UserController::class)->group(function () {
     Route::get('/user', 'showRegister');  
     Route::post('/register', 'register'); 
     Route::post('/login', 'login')->name('login'); 
 });
-
-
-Route::middleware('auth:sanctum')->group(function () {
-    Route::controller(CourseController::class)->group(function () {
-        Route::get('/course', 'showCourse');    
+Route::middleware(['auth:sanctum', 'admin'])->group(function () {
+    Route::controller(CourseController::class)->group(function () { 
         Route::post('/addCourse', 'addCourse');
         Route::delete('/deleteCourse/{course_id}', 'deleteCourse');
         Route::post('/editCourse/{id}', 'editCourse');
     });
-    
     Route::controller(LogoController::class)->group(function () {
         Route::get('/logo', 'showLogo');
         Route::post('/addLogo', 'addLogo');
