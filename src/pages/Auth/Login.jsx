@@ -26,11 +26,9 @@ function Login() {
       localStorage.setItem("role", role);
       if (role == 1) {
         console.log("admin");
-        
         navigate("/admin"); 
       } else {
         console.log("user");
-        
         navigate("/"); 
       }
 

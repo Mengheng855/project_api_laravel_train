@@ -10,7 +10,7 @@ function Course() {
       try {
         const res = await axios.get("http://localhost:8000/api/courses");
         console.log("Fetched:", res.data);
-        setCourses(res.data.data || []); // ✅ Fix here
+        setCourses(res.data.data || []); 
       } catch (err) {
         console.error("Failed to fetch courses:", err);
       } finally {
@@ -45,7 +45,7 @@ function Course() {
           <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-8">
             {courses.map((course) => (
               <div
-                key={course.id}
+                key={course.course_id}
                 className="group bg-white rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-100 hover:border-blue-200 transform hover:-translate-y-2"
               >
                 <div className="relative overflow-hidden">
