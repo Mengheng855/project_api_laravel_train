@@ -12,6 +12,8 @@ import Dashboard from '../pages/admin/Dashboard'
 import Product from '../pages/admin/Product'
 import User from '../pages/admin/User'
 import DashboardHome from '../pages/admin/DashboardHome'
+import ProtectedRoute from '../components/ProtectedRoute'
+import Order from '../pages/admin/Order'
 
 
 function Router() {
@@ -33,10 +35,18 @@ function Router() {
         <Route path="/register" element={<Register />} />
 
        
-        <Route path="/admin" element={<Dashboard />}>
+        <Route
+          path="/admin/*"
+          element={
+            <ProtectedRoute roleRequired={1}>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        >
           <Route index element={<DashboardHome />} />     
           <Route path="user" element={<User />} />         
           <Route path="product" element={<Product />} />   
+          <Route path="order" element={<Order />} />   
         </Route>
       </Routes>
       {!hideNavAndFooter && <Footer />}

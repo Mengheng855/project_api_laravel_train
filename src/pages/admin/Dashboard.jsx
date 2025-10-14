@@ -11,14 +11,16 @@ export default function Dashboard() {
     { icon: "📦", label: "Products", path: "/admin/product" },
     { icon: "💳", label: "Orders", path: "/admin/order" },
   ];
-
+  const handleLogout = () => {
+    localStorage.removeItem("auth_token");
+    navigate("/login");
+  };
   return (
     <div className="flex min-h-screen bg-gray-100 text-gray-800">
       {/* Sidebar */}
       <aside
-        className={`flex flex-col border-r border-gray-200 bg-white transition-all duration-300 ${
-          collapsed ? "w-16" : "w-64"
-        }`}
+        className={`flex flex-col border-r border-gray-200 bg-white transition-all duration-300 ${collapsed ? "w-16" : "w-64"
+          }`}
       >
         {/* Logo */}
         <div className="flex h-16 items-center justify-between px-4 border-b border-gray-200">
@@ -53,10 +55,9 @@ export default function Dashboard() {
               to={item.path}
               end
               className={({ isActive }) =>
-                `flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors ${
-                  isActive
-                    ? "bg-blue-50 text-blue-600"
-                    : "text-gray-600 hover:bg-gray-100 hover:text-gray-800"
+                `flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors ${isActive
+                  ? "bg-blue-50 text-blue-600"
+                  : "text-gray-600 hover:bg-gray-100 hover:text-gray-800"
                 }`
               }
             >
@@ -65,24 +66,6 @@ export default function Dashboard() {
             </NavLink>
           ))}
         </nav>
-
-        {/* User Profile */}
-        <div className="border-t border-gray-200 p-3">
-          <button
-            onClick={() => navigate("/dashboard/profile")}
-            className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 hover:bg-gray-100 transition"
-          >
-            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-500 text-white">
-              JD
-            </div>
-            {!collapsed && (
-              <div className="flex flex-col items-start">
-                <span className="text-sm font-semibold">John Doe</span>
-                <span className="text-xs text-gray-500">john@example.com</span>
-              </div>
-            )}
-          </button>
-        </div>
       </aside>
 
       {/* Right content */}
@@ -92,8 +75,12 @@ export default function Dashboard() {
           <div className="flex items-center justify-between px-6 py-4">
             <h1 className="text-2xl font-bold text-gray-800">Dashboard</h1>
             <div className="flex items-center gap-4">
-              <button className="px-3 py-1 rounded bg-blue-600 text-white hover:bg-blue-700 transition">
-                New Report
+              <button
+                onClick={handleLogout}
+                className="px-6 py-2 font-semibold text-white rounded-full bg-blue-500 
+                hover:bg-sky-900 shadow-md hover:shadow-lg transition duration-300"
+              >
+                Logout
               </button>
             </div>
           </div>
