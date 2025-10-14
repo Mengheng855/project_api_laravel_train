@@ -50,11 +50,11 @@ class User extends Authenticatable
     {
         return [
             'email_verified_at' => 'datetime',
-            'password' => 'hashed', // Added for Laravel 10+ auto-hashing (optional)
+            'password' => 'hashed',
         ];
     }
 
-    // Renamed for clarity (assuming it's for courses)
+   
     public function courses()
     {
         return $this->hasMany(Course::class);

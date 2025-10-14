@@ -23,7 +23,7 @@ class UserController extends Controller
     {
         $data = $request->validate([
             'name' => 'required|string',
-            'email' => 'required|email|unique:users,email', 
+            'email' => 'required|email|unique:users,email',
             'password' => 'required|min:6',
             'role' => 'nullable|integer|in:0,1'
         ]);
@@ -32,12 +32,12 @@ class UserController extends Controller
             $file = $request->file('profile');
             $filename = time() . '_' . $file->getClientOriginalName();
             $file->move(public_path('profiles'), $filename);
-            $data['profile'] = url('profiles/'.$filename);
+            $data['profile'] = url('profiles/' . $filename);
         }
         $data['role'] ??= 0;
 
         $data['password'] = Hash::make($data['password']);
-         
+
         try {
             $register = User::create($data);
             if ($register) {
@@ -60,21 +60,21 @@ class UserController extends Controller
 
             $user = User::where('email', $credentials['email'])->first();
             if ($user && Hash::check($credentials['password'], $user->password)) {
-                
+
                 if (!$user->getKey()) {
                     return apiResponse(401, 'User missing primary key—check DB setup', null);
                 }
 
                 $token = $user->createToken('api-token')->plainTextToken;
-                $role=$user->role;
+                $role = $user->role;
                 $user_id = $user->user_id;
                 $message = $role == 0 ? 'Welcome to user' : 'Welcome to admin';
                 return response()->json([
-                    'status'=>200,
-                    'message'=>'login successfully',
-                    'role'=>$role,
-                    'user_id'=>$user_id,
-                    'token'=>$token
+                    'status' => 200,
+                    'message' => 'login successfully',
+                    'role' => $role,
+                    'user_id' => $user_id,
+                    'token' => $token
                 ]);
             } else {
                 return apiResponse(401, 'Unauthorized—email or password wrong', null);
@@ -83,8 +83,48 @@ class UserController extends Controller
             return apiResponse(500, 'An error occurred: ' . $e->getMessage(), null);
         }
     }
-    public function user($id){
-        $user=User::find($id);
-        return apiResponse(200,'successfully',$user);
+    public function user($id)
+    {
+        $user = User::find($id);
+        return apiResponse(200, 'successfully', $user);
+    }
+    public function deleteUser($id)
+    {
+        $data = User::findOrFail($id);
+        $data->delete();
+        return apiResponse(200, 'deleted', null);
+    }
+    public function editUser(Request $req, $id)
+    {
+        $update = User::findOrFail($id);
+        if ($update) {
+            try {
+                $data = $req->validate([
+                    'name' => 'required|string',
+                    'email' => 'required|email|unique:users,email',
+                    'password' => 'required|min:6',
+                    'role' => 'nullable|integer|in:0,1'
+                ]);
+
+                if ($req->hasFile('profile')) {
+                    $file = $req->file('profile');
+                    $filename = time() . '_' . $file->getClientOriginalName();
+                    $file->move(public_path('profiles'), $filename);
+                    $data['profile'] = url('profiles/' . $filename);
+                }
+                $data['role'] ??= 0;
+
+                if (!empty($data['password'])) {
+                    $data['password'] = Hash::make($data['password']);
+                } else {
+                    unset($data['password']);
+                }
+
+                $update->update($data);
+                return apiResponse(200, 'User updated successfully', $update);
+            } catch (Exception $e) {
+                return apiResponse(500, 'Update failed: ' . $e->getMessage(), null);
+            }
+        }
     }
 }

@@ -27,14 +27,11 @@ Route::controller(UserController::class)->group(function () {
     Route::get('/user', 'showRegister');  
     Route::get('/user/{id}','user');
     Route::post('/register', 'register'); 
+    Route::delete('/deleteUser/{id}','deleteUser');
+    Route::post('/editUser/{id}','editUser');
     Route::post('/login', 'login')->name('login'); 
 });
 Route::middleware(['auth:sanctum', 'admin'])->group(function () {
-    Route::controller(CourseController::class)->group(function () { 
-        Route::post('/addCourse', 'addCourse');
-        Route::delete('/deleteCourse/{course_id}', 'deleteCourse');
-        Route::post('/editCourse/{id}', 'editCourse');
-    });
     Route::controller(LogoController::class)->group(function () {
         Route::get('/logo', 'showLogo');
         Route::post('/addLogo', 'addLogo');
