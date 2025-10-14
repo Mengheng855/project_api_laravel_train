@@ -37,4 +37,9 @@ Route::middleware(['auth:sanctum', 'admin'])->group(function () {
         Route::post('/addLogo', 'addLogo');
         Route::post('/editLogo/{id}', 'editLogo');
     });
+    Route::controller(CourseController::class)->group(function(){
+        Route::post('/addCourse','addCourse');
+        Route::post('/editCourse/{id}','editCourse');
+        Route::delete('deleteCourse/{id}','deleteCourse');
+    });
 });
