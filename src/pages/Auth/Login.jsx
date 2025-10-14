@@ -13,11 +13,9 @@ function Login() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // Submit login
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    
     try {
       const response = await axios.post("http://localhost:8000/api/login", formData);
       console.log("Login Success:", response.data);
@@ -25,17 +23,13 @@ function Login() {
       localStorage.setItem("auth_token", token);
       localStorage.setItem("role", role);
       if (role == 1) {
-        console.log("admin");
         navigate("/admin"); 
       } else {
-        console.log("user");
         navigate("/"); 
       }
-
       alert("Login successful!");
     } catch (error) {
       console.log(123);
-      
       console.error("Login Error:", error.response?.data || error.message);
       alert("Login failed! Check email/password.");
     } finally {
@@ -67,7 +61,6 @@ function Login() {
               required
             />
           </div>
-
           <div className="relative">
             <FaLock className="absolute left-3 top-4 text-gray-400" />
             <input
@@ -110,5 +103,4 @@ function Login() {
     </div>
   );
 }
-
 export default Login;
