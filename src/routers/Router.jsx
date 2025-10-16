@@ -14,12 +14,13 @@ import User from '../pages/admin/User'
 import DashboardHome from '../pages/admin/DashboardHome'
 import ProtectedRoute from '../components/ProtectedRoute'
 import Order from '../pages/admin/Order'
+import Profile from '../pages/user/Profile'
 
 
 function Router() {
   const location = useLocation();
   const hideNavAndFooter =
-    location.pathname.startsWith("/admin") || // all admin pages
+    location.pathname.startsWith("/admin") || 
     ["/login", "/register"].includes(location.pathname);
   return (
     <>
@@ -31,6 +32,7 @@ function Router() {
         <Route path="/about" element={<About />} />
         <Route path="/course" element={<Course />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/profile" element={<Profile />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
 

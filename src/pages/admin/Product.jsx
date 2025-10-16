@@ -151,13 +151,13 @@ function Product() {
                         : `http://localhost:8000/courses/${course.image}`
                     }
                     alt={course.title}
-                    className="h-16 w-24 object-cover rounded-lg shadow-sm"
+                    className="h-16 w-24 object-contain rounded-lg shadow-sm"
                   />
                 </td>
                 <td className="px-4 py-3 font-medium text-gray-700">{course.title}</td>
                 <td className="px-4 py-3 text-gray-600">{course.course_name}</td>
                 <td className="px-4 py-3 text-gray-600">${course.price}</td>
-                <td className="px-4 py-3 text-gray-600">${course.discount}</td>
+                <td className="px-4 py-3 text-gray-600">{course.discount}%</td>
                 <td className="px-4 py-3 font-semibold text-gray-800">${course.total_price}</td>
                 <td className="px-4 py-3 flex space-x-2">
                   <button

@@ -19,13 +19,16 @@ function Login() {
     try {
       const response = await axios.post("http://localhost:8000/api/login", formData);
       console.log("Login Success:", response.data);
-      const { token, role } = response.data;
+      const { token, role, user_id } = response.data;
       localStorage.setItem("auth_token", token);
       localStorage.setItem("role", role);
+      localStorage.setItem("user_id", user_id);
       if (role == 1) {
         navigate("/admin"); 
-      } else {
+      }else if(role==0){
         navigate("/"); 
+      }else{
+        navigate("/login")
       }
       alert("Login successful!");
     } catch (error) {

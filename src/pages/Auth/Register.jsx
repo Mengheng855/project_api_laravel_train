@@ -10,16 +10,16 @@ function Register() {
     name: "",
     email: "",
     password: "",
-    profile: null, // file
+    profile: null, 
   });
 
-  // Handle input change
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  // Handle profile file change
+
   const handleProfileChange = (e) => {
     const file = e.target.files[0];
     setFormData({ ...formData, profile: file });
@@ -27,8 +27,7 @@ function Register() {
       setProfilePreview(URL.createObjectURL(file));
     }
   };
-
-  // Submit form
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -37,20 +36,18 @@ function Register() {
       data.append("email", formData.email);
       data.append("password", formData.password);
       if (formData.profile) data.append("profile", formData.profile);
-
       const response = await axios.post("http://localhost:8000/api/register", data, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
       console.log("Register Success:", response.data);
       alert("Register successful!");
-      navigate("/login"); // redirect to login page
+      navigate("/login"); 
     } catch (error) {
       console.error("Register Error:", error.response?.data || error.message);
       alert("Register failed! Check your inputs.");
     }
   };
-
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-600 via-purple-600 to-blue-500 p-6">
       <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md p-8">
@@ -90,7 +87,6 @@ function Register() {
               required
             />
           </div>
-
           {/* Password */}
           <div className="relative">
             <FaLock className="absolute left-3 top-3 text-gray-400" />

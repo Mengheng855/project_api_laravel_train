@@ -216,16 +216,6 @@ function User() {
                 onChange={handleChange}
                 className="w-full"
               />
-              <select
-                name="role"
-                value={formData.role}
-                onChange={handleChange}
-                className="w-full p-3 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-400 focus:outline-none"
-              >
-                <option value={0}>User</option>
-                <option value={1}>Admin</option>
-              </select>
-
               <div className="flex justify-end space-x-3 mt-4">
                 <button
                   type="button"
