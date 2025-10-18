@@ -49,6 +49,7 @@ class UserController extends Controller
             return apiResponse(500, 'Registration failed: ' . $e->getMessage(), null);
         }
     }
+    
 
     public function login(Request $request)
     {
@@ -57,14 +58,12 @@ class UserController extends Controller
                 'email' => 'required|email',
                 'password' => 'required',
             ]);
-
             $user = User::where('email', $credentials['email'])->first();
             if ($user && Hash::check($credentials['password'], $user->password)) {
 
                 if (!$user->getKey()) {
                     return apiResponse(401, 'User missing primary key—check DB setup', null);
                 }
-
                 $token = $user->createToken('api-token')->plainTextToken;
                 $role = $user->role;
                 $user_id = $user->user_id;
@@ -105,7 +104,6 @@ class UserController extends Controller
                     'password' => 'required|min:6',
                     'role' => 'nullable|integer|in:0,1'
                 ]);
-
                 if ($req->hasFile('profile')) {
                     $file = $req->file('profile');
                     $filename = time() . '_' . $file->getClientOriginalName();

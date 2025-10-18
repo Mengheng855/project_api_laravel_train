@@ -11,14 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('logos', function (Blueprint $table) {
-            $table->id('logo_id');
-            $table->longText('image_logo');
-            $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')
-                ->references('user_id')
-                ->on('users')
-                ->onDelete('cascade');
+        Schema::create('teachers', function (Blueprint $table) {
+            $table->id('teacher_id');
+            $table->string('teacher_name',50);
+            $table->string('major',50);
+            $table->text('description');
+            $table->longText('profile_teacher');
             $table->timestamps();
         });
     }
@@ -28,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('logos');
+        Schema::dropIfExists('teachers');
     }
 };

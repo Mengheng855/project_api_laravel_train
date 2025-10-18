@@ -8,6 +8,7 @@ use App\Http\Controllers\CourseController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LogoController;
+use App\Models\Teacher;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,12 +24,16 @@ Route::controller(CourseController::class)->group(function () {
     Route::get('/courses', 'showCourse');   
     Route::get('/course/{course_id}', 'Course');   
 });
+Route::controller(TeacherController::class)->group(function(){
+    Route::get('/teacher','getTeachers');
+    Route::get('/teacher/{teacher_id}','getTeacher');
+});
 Route::controller(UserController::class)->group(function () {
     Route::get('/user', 'showRegister');  
     Route::get('/user/{id}','user');
-    Route::post('/register', 'register'); 
     Route::delete('/deleteUser/{id}','deleteUser');
     Route::post('/editUser/{id}','editUser');
+    Route::post('/register', 'register'); 
     Route::post('/login', 'login')->name('login'); 
 });
 Route::middleware(['auth:sanctum', 'admin'])->group(function () {
@@ -41,5 +46,10 @@ Route::middleware(['auth:sanctum', 'admin'])->group(function () {
         Route::post('/addCourse','addCourse');
         Route::post('/editCourse/{id}','editCourse');
         Route::delete('deleteCourse/{id}','deleteCourse');
+    });
+    Route::controller(TeacherController::class)->group(function(){
+        Route::post('/addTeacher','addTeacher');
+        Route::delete('/deleteTeacher/{teacher_id}','deleteTeacher');
+        Route::post('/editTeacher/{teacher_id}','editTeacher');
     });
 });
