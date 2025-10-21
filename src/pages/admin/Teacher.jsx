@@ -16,7 +16,7 @@ function Teacher() {
 
   const token = localStorage.getItem("auth_token"); 
 
-
+  // Fetch all teachers
   const fetchTeachers = async () => {
     try {
       const res = await axios.get("http://localhost:8000/api/teacher", {

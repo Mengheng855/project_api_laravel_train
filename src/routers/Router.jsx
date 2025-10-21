@@ -16,6 +16,7 @@ import ProtectedRoute from '../components/ProtectedRoute'
 import Order from '../pages/admin/Order'
 import Profile from '../pages/user/Profile'
 import Teacher from '../pages/admin/Teacher'
+import CourseDetail from '../pages/user/CourseDetail'
 
 
 function Router() {
@@ -32,12 +33,11 @@ function Router() {
         <Route path='*' element={"404 not found"}/>
         <Route path="/about" element={<About />} />
         <Route path="/course" element={<Course />} />
+        <Route path="/course/:id" element={<CourseDetail />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-
-       
         <Route
           path="/admin/*"
           element={
