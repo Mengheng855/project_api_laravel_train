@@ -1,53 +1,33 @@
-import React from "react";
-
-const team = [
-  { 
-    name: "John Doe", 
-    role: "Founder & CEO", 
-    image: "https://source.unsplash.com/150x150/?man",
-    bio: "Visionary leader with 10+ years in education technology",
-    social: {
-      linkedin: "#",
-      twitter: "#",
-      email: "#"
-    }
-  },
-  { 
-    name: "Jane Smith", 
-    role: "Lead Instructor", 
-    image: "https://source.unsplash.com/150x150/?woman",
-    bio: "Passionate educator specializing in modern web development",
-    social: {
-      linkedin: "#",
-      twitter: "#",
-      email: "#"
-    }
-  },
-  { 
-    name: "Alice Johnson", 
-    role: "UI/UX Designer", 
-    image: "https://source.unsplash.com/150x150/?designer",
-    bio: "Creative designer focused on user-centered design solutions",
-    social: {
-      linkedin: "#",
-      twitter: "#",
-      email: "#"
-    }
-  },
-  { 
-    name: "Bob Lee", 
-    role: "Data Scientist", 
-    image: "https://source.unsplash.com/150x150/?developer",
-    bio: "Data expert transforming insights into actionable strategies",
-    social: {
-      linkedin: "#",
-      twitter: "#",
-      email: "#"
-    }
-  },
-];
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 
 function About() {
+  const [team, setTeam] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchTeachers = async () => {
+      try {
+        const token = localStorage.getItem("auth_token");
+        const response = await axios.get("http://localhost:8000/api/teacher", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        setTeam(response.data.data || []); // <- fix here
+      } catch (error) {
+        console.error(
+          "Failed to fetch teachers:",
+          error.response?.data || error.message
+        );
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTeachers();
+  }, []);
+
+  if (loading) return <p className="text-center mt-20">Loading team...</p>;
+
   return (
     <div className="font-sans relative overflow-hidden">
       {/* Background Elements */}
@@ -79,7 +59,7 @@ function About() {
         <div className="grid lg:grid-cols-2 xl:grid-cols-4 gap-8">
           {team.map((member, idx) => (
             <div 
-              key={idx}
+              key={member.teacher_id}
               className="group relative bg-gradient-to-br from-white to-gray-50 rounded-3xl shadow-2xl hover:shadow-3xl transition-all duration-500 overflow-hidden border border-gray-100 hover:border-blue-200 transform hover:-translate-y-4"
               style={{
                 animationDelay: `${idx * 200}ms`,
@@ -94,9 +74,9 @@ function About() {
                 <div className="relative mx-auto w-48 h-48">
                   <div className="absolute inset-0 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full blur-lg opacity-20 group-hover:opacity-30 transition-opacity duration-500"></div>
                   <img
-                    src={member.image}
-                    alt={member.name}
-                    className="relative w-48 h-48 mx-auto rounded-full object-cover border-4 border-white shadow-2xl group-hover:scale-110 transition-transform duration-500 z-10"
+                    src={member.profile_teacher || "https://source.unsplash.com/150x150/?person"}
+                    alt={member.teacher_name}
+                    className="relative w-48 h-48 mx-auto rounded-full object-cover border-4 border-white shadow-2xl  z-10"
                   />
                   {/* Status Indicator */}
                   <div className="absolute bottom-4 right-4 w-6 h-6 bg-green-400 border-4 border-white rounded-full z-20 shadow-lg animate-pulse"></div>
@@ -106,31 +86,14 @@ function About() {
               {/* Content */}
               <div className="relative p-8 pt-6 text-center">
                 <h3 className="text-2xl font-bold text-gray-800 mb-2 group-hover:text-blue-600 transition-colors duration-300">
-                  {member.name}
+                  {member.teacher_name}
                 </h3>
                 <div className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-500 to-purple-500 text-white px-4 py-1 rounded-full text-sm font-semibold mb-4 shadow-lg">
-                  {member.role}
+                  {member.major}
                 </div>
                 <p className="text-gray-600 text-sm leading-relaxed mb-6 line-clamp-3">
-                  {member.bio}
+                  {member.description || "No bio available"}
                 </p>
-
-                {/* Social Links */}
-                <div className="flex justify-center gap-3">
-                  {['linkedin', 'twitter', 'email'].map((platform) => (
-                    <a
-                      key={platform}
-                      href={member.social[platform]}
-                      className="w-10 h-10 bg-white border border-gray-200 rounded-xl flex items-center justify-center 
-                               text-gray-600 hover:bg-blue-500 hover:text-white hover:border-blue-500 
-                               transition-all duration-300 transform hover:scale-110 shadow-sm hover:shadow-lg"
-                    >
-                      <span className="text-xs font-semibold">
-                        {platform === 'linkedin' ? 'in' : platform === 'twitter' ? 'X' : '✉'}
-                      </span>
-                    </a>
-                  ))}
-                </div>
               </div>
 
               {/* Hover Effect Overlay */}
@@ -141,16 +104,12 @@ function About() {
 
         {/* Stats Section */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 mt-20 max-w-4xl mx-auto">
-          {[
-            { number: '50K+', label: 'Students Enrolled' },
+          {[{ number: '50K+', label: 'Students Enrolled' },
             { number: '500+', label: 'Courses Available' },
             { number: '98%', label: 'Success Rate' },
-            { number: '24/7', label: 'Support Available' }
-          ].map((stat, idx) => (
-            <div 
-              key={idx}
-              className="text-center group"
-            >
+            { number: '24/7', label: 'Support Available' }]
+          .map((stat, idx) => (
+            <div key={idx} className="text-center group">
               <div className="text-4xl lg:text-5xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-3 group-hover:scale-110 transition-transform duration-300">
                 {stat.number}
               </div>
@@ -197,6 +156,12 @@ function About() {
             opacity: 1;
             transform: translateY(0);
           }
+        }
+        .line-clamp-3 {
+          display: -webkit-box;
+          -webkit-line-clamp: 3;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
         }
       `}</style>
     </div>

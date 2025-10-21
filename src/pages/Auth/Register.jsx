@@ -27,7 +27,6 @@ function Register() {
       setProfilePreview(URL.createObjectURL(file));
     }
   };
-  
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -39,7 +38,6 @@ function Register() {
       const response = await axios.post("http://localhost:8000/api/register", data, {
         headers: { "Content-Type": "multipart/form-data" },
       });
-
       console.log("Register Success:", response.data);
       alert("Register successful!");
       navigate("/login"); 

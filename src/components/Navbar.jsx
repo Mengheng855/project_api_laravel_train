@@ -33,26 +33,28 @@ function Navbar() {
 
   const handleLogout = () => {
     localStorage.removeItem("auth_token");
+    localStorage.removeItem("role");
+    localStorage.removeItem("user_id");
     setIsLoggedIn(false);
     navigate("/login");
   };
 
   return (
-    <nav 
+    <nav
       className={`fixed top-1 w-[98%] justify-self-center bg-white/65 shadow-2xl rounded-3xl z-50 transition-all duration-500 `}
     >
       <div className="max-w-7xl mx-auto px-6 py-3 flex justify-between items-center">
         {/* Logo with enhanced design */}
-        <Link 
-          to="/" 
+        <Link
+          to="/"
           className="flex items-center group"
           onClick={() => setMenuOpen(false)}
         >
           <div className="relative">
-            <img 
-              src="/logoRemovedbg.png" 
-              alt="Logo" 
-              className="h-12 w-auto " 
+            <img
+              src="/logoRemovedbg.png"
+              alt="Logo"
+              className="h-12 w-auto "
             />
             <div className="absolute inset-0 bg-gradient-to-r from-blue-400/20 to-purple-500/20 rounded-full blur-sm group-hover:blur-md transition-all duration-300"></div>
           </div>
@@ -64,11 +66,10 @@ function Navbar() {
             <NavLink
               key={link.name}
               to={link.path}
-              className={({ isActive }) => 
-                `relative px-6 py-2.5 font-semibold text-sm transition-all duration-300 rounded-xl ${
-                  isActive 
-                    ? "text-white bg-gradient-to-r from-blue-500 to-purple-500 shadow-lg shadow-blue-500/25" 
-                    : "text-gray-600 hover:text-blue-600 hover:bg-white/80"
+              className={({ isActive }) =>
+                `relative px-6 py-2.5 font-semibold text-sm transition-all duration-300 rounded-xl ${isActive
+                  ? "text-white bg-gradient-to-r from-blue-500 to-purple-500 shadow-lg shadow-blue-500/25"
+                  : "text-gray-600 hover:text-blue-600 hover:bg-white/80"
                 }`
               }
             >
@@ -131,25 +132,21 @@ function Navbar() {
           aria-label={menuOpen ? "Close menu" : "Open menu"}
         >
           <div className="relative w-6 h-6">
-            <span className={`absolute top-1/2 left-1/2 w-5 h-0.5 bg-gray-700 rounded-full transform -translate-x-1/2 -translate-y-1/2 transition-all duration-300 ${
-              menuOpen ? "rotate-45" : "-translate-y-2"
-            }`}></span>
-            <span className={`absolute top-1/2 left-1/2 w-5 h-0.5 bg-gray-700 rounded-full transform -translate-x-1/2 -translate-y-1/2 transition-all duration-300 ${
-              menuOpen ? "opacity-0" : "opacity-100"
-            }`}></span>
-            <span className={`absolute top-1/2 left-1/2 w-5 h-0.5 bg-gray-700 rounded-full transform -translate-x-1/2 -translate-y-1/2 transition-all duration-300 ${
-              menuOpen ? "-rotate-45" : "translate-y-2"
-            }`}></span>
+            <span className={`absolute top-1/2 left-1/2 w-5 h-0.5 bg-gray-700 rounded-full transform -translate-x-1/2 -translate-y-1/2 transition-all duration-300 ${menuOpen ? "rotate-45" : "-translate-y-2"
+              }`}></span>
+            <span className={`absolute top-1/2 left-1/2 w-5 h-0.5 bg-gray-700 rounded-full transform -translate-x-1/2 -translate-y-1/2 transition-all duration-300 ${menuOpen ? "opacity-0" : "opacity-100"
+              }`}></span>
+            <span className={`absolute top-1/2 left-1/2 w-5 h-0.5 bg-gray-700 rounded-full transform -translate-x-1/2 -translate-y-1/2 transition-all duration-300 ${menuOpen ? "-rotate-45" : "translate-y-2"
+              }`}></span>
           </div>
         </button>
       </div>
 
       {/* Enhanced Mobile Menu */}
-      <div className={`md:hidden absolute top-full left-0 w-full transition-all duration-500 ${
-        menuOpen 
-          ? "opacity-100 translate-y-0 visible" 
+      <div className={`md:hidden absolute top-full left-0 w-full transition-all duration-500 ${menuOpen
+          ? "opacity-100 translate-y-0 visible"
           : "opacity-0 -translate-y-4 invisible"
-      }`}>
+        }`}>
         <div className="bg-white/95 backdrop-blur-xl shadow-2xl shadow-blue-500/20 border-t border-white/20 mx-4 mt-2 rounded-2xl overflow-hidden">
           <div className="flex flex-col py-4 space-y-1 px-3">
             {navLinks.map((link) => (

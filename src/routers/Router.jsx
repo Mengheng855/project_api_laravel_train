@@ -15,6 +15,7 @@ import DashboardHome from '../pages/admin/DashboardHome'
 import ProtectedRoute from '../components/ProtectedRoute'
 import Order from '../pages/admin/Order'
 import Profile from '../pages/user/Profile'
+import Teacher from '../pages/admin/Teacher'
 
 
 function Router() {
@@ -49,6 +50,7 @@ function Router() {
           <Route path="user" element={<User />} />         
           <Route path="product" element={<Product />} />   
           <Route path="order" element={<Order />} />   
+          <Route path="teacher" element={<Teacher />} />   
         </Route>
       </Routes>
       {!hideNavAndFooter && <Footer />}

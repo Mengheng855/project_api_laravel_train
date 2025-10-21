@@ -69,6 +69,11 @@ function User() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const data = new FormData();
+    const password = formData.password.trim(); 
+    if (password && password.length < 6) {
+      alert("Password must be at least 6 characters (no spaces only)!");
+      return;
+    }
     data.append("name", formData.name);
     data.append("email", formData.email);
     if (formData.password) data.append("password", formData.password);
@@ -208,8 +213,20 @@ function User() {
                 placeholder="Password (Leave blank if not change)"
                 value={formData.password}
                 onChange={handleChange}
+                minLength={6}
                 className="w-full p-3 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-400 focus:outline-none"
               />
+              <select
+                name="role"
+                id="role"
+                value={formData.role}
+                onChange={handleChange}
+                className="w-full p-3 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-400 focus:outline-none"
+              >
+                <option value="">---- Select Role ----</option>
+                <option value="0">User</option>
+                <option value="1">Admin</option>
+              </select>
               <input
                 type="file"
                 name="profile"

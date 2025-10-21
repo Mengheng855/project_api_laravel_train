@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FaUser, FaLock } from "react-icons/fa";
 import axios from "axios";
-
 function Login() {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -12,33 +11,33 @@ function Login() {
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+
     try {
       const response = await axios.post("http://localhost:8000/api/login", formData);
-      console.log("Login Success:", response.data);
       const { token, role, user_id } = response.data;
+
+      if (!token) throw new Error("Invalid login response");
+
       localStorage.setItem("auth_token", token);
       localStorage.setItem("role", role);
       localStorage.setItem("user_id", user_id);
-      if (role == 1) {
-        navigate("/admin"); 
-      }else if(role==0){
-        navigate("/"); 
-      }else{
-        navigate("/login")
-      }
-      alert("Login successful!");
+
+
+      if (role === 1) navigate("/admin");
+      else if (role === 0) navigate("/");
+      else navigate("/login");
+
     } catch (error) {
-      console.log(123);
       console.error("Login Error:", error.response?.data || error.message);
-      alert("Login failed! Check email/password.");
+      
     } finally {
       setLoading(false);
     }
   };
+
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-gray-800 to-black p-6">

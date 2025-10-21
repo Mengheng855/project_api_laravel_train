@@ -10,9 +10,12 @@ export default function Dashboard() {
     { icon: "👥", label: "Users", path: "/admin/user" },
     { icon: "📦", label: "Products", path: "/admin/product" },
     { icon: "💳", label: "Orders", path: "/admin/order" },
+    { icon: "🏠", label: "Teachers", path: "/admin/teacher" },
   ];
   const handleLogout = () => {
     localStorage.removeItem("auth_token");
+    localStorage.removeItem("role");
+    localStorage.removeItem("user_id");
     navigate("/login");
   };
   return (
