@@ -49,7 +49,7 @@ class UserController extends Controller
             return apiResponse(500, 'Registration failed: ' . $e->getMessage(), null);
         }
     }
-    
+
 
     public function login(Request $request)
     {
@@ -98,19 +98,27 @@ class UserController extends Controller
         $update = User::findOrFail($id);
         if ($update) {
             try {
-                $data = $req->validate([
-                    'name' => 'required|string',
-                    'email' => 'required|email|unique:users,email',
-                    'password' => 'required|min:6',
-                    'role' => 'nullable|integer|in:0,1'
-                ]);
+                $filtered = array_filter($req->all(), function ($value) {
+                    return $value !== null && $value !== '';
+                });
+                // $data = $req->validate([
+                //     'name' => 'sometimes|required|string',
+                //     'email' => 'sometimes|required|email|unique:users,email,' . $id,
+                //     'password' => 'nullable|min:6',
+                //     'role' => 'sometimes|integer|in:0,1',
+                //     'profile' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+                // ]);
+                if ($req->has('name')) $data['name'] = $req->name;
+                if ($req->has('email')) $data['email']= $req->email;
+                if ($req->filled('password')) $data['password']= bcrypt($req->password);
+                if ($req->has('role')) $data['role']= $req->role;
+
                 if ($req->hasFile('profile')) {
                     $file = $req->file('profile');
                     $filename = time() . '_' . $file->getClientOriginalName();
                     $file->move(public_path('profiles'), $filename);
                     $data['profile'] = url('profiles/' . $filename);
                 }
-                $data['role'] ??= 0;
 
                 if (!empty($data['password'])) {
                     $data['password'] = Hash::make($data['password']);

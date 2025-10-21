@@ -20,9 +20,7 @@ class CourseController extends Controller
     }
     public function addCourse(Request $req)
     {
-
         try {
-           
             $data = $req->validate([
                 'course_name' => 'required|string',
                 'title' => 'required|string',
@@ -37,7 +35,6 @@ class CourseController extends Controller
                 $file->move(public_path('courses'), $filename);
                 $data['image'] = url('courses/'.$filename);
             }
-
             $addCourse = Course::create($data);
             if ($addCourse) {
                 return apiResponse(201, 'Course added successfully', $addCourse);

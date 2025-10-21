@@ -9,7 +9,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LogoController;
 use App\Models\Teacher;
-
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -52,4 +51,7 @@ Route::middleware(['auth:sanctum', 'admin'])->group(function () {
         Route::delete('/deleteTeacher/{teacher_id}','deleteTeacher');
         Route::post('/editTeacher/{teacher_id}','editTeacher');
     });
+    // Route::controller(OrderController::class)->group(function(){
+    //     Route::post('/order/create','createOrder');
+    // });
 });
