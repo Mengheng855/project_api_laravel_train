@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Api\CourseController as ApiCourseController;
+use App\Http\Controllers\Api\GoogleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CourseController;
 use Illuminate\Http\Request;
@@ -61,3 +62,8 @@ Route::controller(ForgotPasswordController::class)->group(function () {
     Route::post('/forgot-password', 'sendResetLink')->name('password.email');
     Route::post('/reset-password', 'resetPassword')->name('password.reset');
 });
+
+
+Route::get('/auth/google/redirect', [GoogleController::class, 'redirectToGoogle']);
+Route::get('/auth/google/callback', [GoogleController::class, 'handleGoogleCallback']);
+
